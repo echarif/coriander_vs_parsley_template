@@ -1,6 +1,6 @@
 # 🌿 Coriander vs Parsley Classifier Web Template
 
-This repository contains a **web template** designed as a user-friendly front-end interface for interacting with the [Coriander vs Parsley Classifier API](https://github.com/your-username/coriander-vs-parsley-classifier-api). It enables users to upload images and view classification results seamlessly through a modern, responsive design.
+This repository contains a **web template** designed as a user-friendly front-end interface for interacting with the [Coriander vs Parsley Classifier API](https://github.com/echarif/coriander_vs_parsley_api.git). It enables users to upload images and view classification results seamlessly through a modern, responsive design.
 
 ## 🚀 Features
 
@@ -51,7 +51,7 @@ const response = await fetch('https://your-new-api-url/predict/', { ... });
 ## 🌐 Integration with the API
 
 This web template serves as the front-end for the **Coriander vs Parsley Classifier API**, which is available in the repository below:
-- [Coriander vs Parsley Classifier API Repository](https://github.com/your-username/coriander-vs-parsley-classifier-api)
+- [Coriander vs Parsley Classifier API Repository](https://github.com/echarif/coriander_vs_parsley_api.git)
 
 The API handles the actual classification logic and returns predictions to this front-end.
 
@@ -66,8 +66,6 @@ Below is a preview of the **Coriander vs Parsley Classifier Template**:
 ## 🧑‍💻 Contributions
 
 Feel free to fork this repository, enhance the UI, or adapt it for other classification tasks. Contributions and feedback are welcome!
-
----
 
 To include the image preview:
 1. Add the preview image (e.g., `preview.png`) to your repository.
