@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coriander vs Parsley Classifier</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #1a73e8;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .upload-button {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .upload-button:hover {
+            background: #155db1;
+        }
+
+        #image-preview {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #predict-button {
+            background: #34a853;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: background 0.3s ease;
+            display: none;
+        }
+
+        #predict-button:hover {
+            background: #2d8d47;
+        }
+
+        #result-container {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-success {
+            background: #e6f4ea;
+            border: 1px solid #34a853;
+        }
+
+        .result-error {
+            background: #fce8e6;
+            border: 1px solid #ea4335;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1a73e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Coriander vs Parsley Classifier</h1>
+        
+        <div class="upload-section">
+            <label for="file-input" class="upload-button">
+                Choisir une image
+            </label>
+            <input type="file" id="file-input" accept="image/*">
+            <p>Formats acceptés: JPG, PNG, GIF</p>
+        </div>
+
+        <div id="image-preview">
+            <img id="preview-img" alt="Aperçu de l'image">
+        </div>
+
+        <button id="predict-button">Prédire</button>
+        
+        <div class="loading" id="loading"></div>
+        
+        <div id="result-container"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const previewImg = document.getElementById('preview-img');
+        const predictButton = document.getElementById('predict-button');
+        const resultContainer = document.getElementById('result-container');
+        const loading = document.getElementById('loading');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'inline-block';
+                    predictButton.style.display = 'block';
+                    resultContainer.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        predictButton.addEventListener('click', async function() {
+            if (!fileInput.files[0]) {
+                alert('Veuillez sélectionner une image');
+                return;
+            }
+
+            loading.style.display = 'block';
+            predictButton.disabled = true;
+            resultContainer.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('https://coriander-vs-parsley-api.onrender.com/predict/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                resultContainer.style.display = 'block';
+                if (response.ok) {
+                    resultContainer.className = 'result-success';
+                    resultContainer.innerHTML = `
+                        <h3>Résultat de la prédiction</h3>
+                        <p>Cette image est classifiée comme: <strong>${data.predicted_class}</strong></p>
+                    `;
+                } else {
+                    resultContainer.className = 'result-error';
+                    resultContainer.innerHTML = `
+                        <h3>Erreur</h3>
+                        <p>${data.error || 'Une erreur est survenue'}</p>
+                    `;
+                }
+            } catch (error) {
+                resultContainer.style.display = 'block';
+                resultContainer.className = 'result-error';
+                resultContainer.innerHTML = `
+                    <h3>Erreur</h3>
+                    <p>Une erreur est survenue lors de la communication avec le serveur</p>
+                `;
+            } finally {
+                loading.style.display = 'none';
+                predictButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
