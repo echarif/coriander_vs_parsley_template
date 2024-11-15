@@ -22,8 +22,8 @@ This repository contains a **web template** designed as a user-friendly front-en
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository_url>
-   cd <repository_name>
+   git clone https://github.com/echarif/coriander_vs_parsley_template.git
+   cd coriander_vs_parsley_template
    ```
 
 2. Open the `index.html` file in any modern web browser:
