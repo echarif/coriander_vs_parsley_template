@@ -55,8 +55,6 @@ Below is a preview of the **Coriander vs Parsley Classifier Template**:
 
 ![Template Preview](images/template_preview.png)
 
-> **Note**: Replace `path/to/your/image.png` with the actual file path of the preview image in the repository.
-
 ## 🧑‍💻 Contributions
 
 Feel free to fork this repository, enhance the UI, or adapt it for other classification tasks. Contributions and feedback are welcome!
