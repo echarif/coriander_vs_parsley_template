@@ -42,12 +42,6 @@ If the API is deployed elsewhere, update the fetch URL in the `<script>` section
 const response = await fetch('https://your-new-api-url/predict/', { ... });
 ```
 
-## 📂 Project Structure
-
-```
-├── index.html    # Main HTML file for the template
-```
-
 ## 🌐 Integration with the API
 
 This web template serves as the front-end for the **Coriander vs Parsley Classifier API**, which is available in the repository below:
@@ -59,16 +53,10 @@ The API handles the actual classification logic and returns predictions to this 
 
 Below is a preview of the **Coriander vs Parsley Classifier Template**:
 
-![Template Preview](path/to/your/image.png)
+![Template Preview](images/template_preview.png)
 
 > **Note**: Replace `path/to/your/image.png` with the actual file path of the preview image in the repository.
 
 ## 🧑‍💻 Contributions
 
 Feel free to fork this repository, enhance the UI, or adapt it for other classification tasks. Contributions and feedback are welcome!
-
-To include the image preview:
-1. Add the preview image (e.g., `preview.png`) to your repository.
-2. Update the `![Template Preview](path/to/your/image.png)` line with the correct path to the image in your repository, e.g., `![Template Preview](./preview.png)` if the file is in the root directory. 
-
-Let me know if you need help with uploading or linking the image!
